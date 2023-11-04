@@ -1,3 +1,7 @@
+mod vec3;
+
+use crate::vec3::Vec3;
+
 fn main() {
     // Image
 
