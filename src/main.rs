@@ -1,6 +1,6 @@
 mod vec3;
 
-use crate::vec3::Vec3;
+use crate::vec3::Color;
 
 fn main() {
     // Image
@@ -24,11 +24,8 @@ fn main() {
             let g = j / (image_height - 1.0);
             let b = 0.0;
 
-            let ir = (255.999 * r) as i64;
-            let ig = (255.999 * g) as i64;
-            let ib = (255.999 * b) as i64;
-
-            println!("{ir} {ig} {ib}");
+            let pixel_color = Color::new(r, g, b);
+            pixel_color.write_color();
         }
     }
     eprintln!("\rDone.{}", " ".repeat(25));

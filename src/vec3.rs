@@ -1,16 +1,17 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg};
 
-type Point3 = Vec3;
+pub type Color = Vec3;
+pub type Point3 = Vec3;
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Vec3 {
-    pub x: f64,
-    pub y: f64,
-    pub z: f64,
+    x: f64,
+    y: f64,
+    z: f64,
 }
 
 impl Vec3 {
-    fn new(x: f64, y: f64, z: f64) -> Self {
+    pub fn new(x: f64, y: f64, z: f64) -> Self {
         Self { x, y, z }
     }
 
@@ -32,6 +33,11 @@ impl Vec3 {
 
     fn unit_vector(&self) -> Self {
         self.clone() / self.length()
+    }
+
+    pub fn write_color(&self) {
+        let a = |b| (255.999 * b) as i64;
+        println!("{} {} {}", a(self.x), a(self.y), a(self.z));
     }
 }
 
