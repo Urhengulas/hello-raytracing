@@ -1,14 +1,15 @@
 fn main() {
     // Image
 
-    let image_width = 256;
-    let image_height = 256;
+    let image_width = 1024;
+    let image_height = 1024;
 
     // Render
 
     println!("P3\n{image_width} {image_height}\n255");
 
     for j in 0..image_height {
+        eprint!("\rScanlines remaining: {:05}", image_height - j);
         for i in 0..image_width {
             let i: f64 = i.try_into().unwrap();
             let j: f64 = j.try_into().unwrap();
@@ -26,4 +27,5 @@ fn main() {
             println!("{ir} {ig} {ib}");
         }
     }
+    eprintln!("\rDone.{}", " ".repeat(25));
 }
