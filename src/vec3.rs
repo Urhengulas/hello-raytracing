@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 pub type Color = Vec3;
 pub type Point3 = Vec3;
@@ -108,6 +108,15 @@ impl Mul<f64> for Vec3 {
     }
 }
 
+impl Mul<Vec3> for f64 {
+    type Output = Vec3;
+
+    fn mul(self, mut rhs: Vec3) -> Self::Output {
+        rhs *= self;
+        rhs
+    }
+}
+
 impl MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, rhs: f64) {
         self.x *= rhs;
@@ -125,6 +134,23 @@ impl Neg for Vec3 {
             y: -self.y,
             z: -self.z,
         }
+    }
+}
+
+impl Sub for Vec3 {
+    type Output = Self;
+
+    fn sub(mut self, rhs: Self) -> Self::Output {
+        self -= rhs;
+        self
+    }
+}
+
+impl SubAssign for Vec3 {
+    fn sub_assign(&mut self, rhs: Self) {
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+        self.z -= rhs.z;
     }
 }
 
@@ -285,6 +311,20 @@ mod tests {
     }
 
     #[test]
+    fn mul_vec3() {
+        // Arrange
+        let a = Vec3::new(1.0, 2.0, 3.0);
+        let b = 2.0;
+
+        // Act
+        let c = b * a;
+
+        // Assert
+        let result = Vec3::new(2.0, 4.0, 6.0);
+        assert_eq!(c, result);
+    }
+
+    #[test]
     fn mul_assign() {
         // Arrange
         let mut a = Vec3::new(1.0, 2.0, 3.0);
@@ -309,5 +349,33 @@ mod tests {
         // Assert
         let result = Vec3::new(-1.0, 2.0, -3.0);
         assert_eq!(b, result);
+    }
+
+    #[test]
+    fn sub() {
+        // Arrange
+        let a = Vec3::new(1.0, 2.0, 3.0);
+        let b = Vec3::new(4.0, 5.0, 6.0);
+
+        // Act
+        let c = a - b;
+
+        // Assert
+        let result = Vec3::new(-3.0, -3.0, -3.0);
+        assert_eq!(c, result);
+    }
+
+    #[test]
+    fn sub_assign() {
+        // Arrange
+        let mut a = Vec3::new(1.0, 2.0, 3.0);
+        let b = Vec3::new(4.0, 5.0, 6.0);
+
+        // Act
+        a -= b;
+
+        // Assert
+        let result = Vec3::new(-3.0, -3.0, -3.0);
+        assert_eq!(a, result);
     }
 }
