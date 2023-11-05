@@ -1,12 +1,10 @@
-use std::ops::RangeInclusive;
-
 use crate::{
     ray::Ray,
     vec3::{Point3, Vec3},
 };
 
 pub trait Hittable {
-    fn hit(&self, r: &Ray, ray_range: RangeInclusive<f64>, rec: &mut HitRecord) -> bool;
+    fn hit(&self, r: &Ray, ray_tmin: f64, ray_tmax: f64) -> Option<HitRecord>;
 }
 
 #[derive(Debug, Default)]

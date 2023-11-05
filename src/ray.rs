@@ -1,7 +1,5 @@
-use std::ops::RangeInclusive;
-
 use crate::{
-    hittable::{HitRecord, Hittable},
+    hittable::Hittable,
     sphere::Sphere,
     vec3::{Color, Point3, Vec3},
 };
@@ -27,15 +25,17 @@ impl Ray {
     pub fn ray_color(&self) -> Color {
         let center = Point3::new(0., 0., -1.);
         let sphere = Sphere::new(center, 0.5);
-        let mut rec = HitRecord::default();
-        sphere.hit(self, RangeInclusive::new(-1., 1.), &mut rec);
-        if rec.t > 0. {
-            let n = (self.at(rec.t) - center).unit_vector();
-            0.5 * (n + 1.)
-        } else {
-            let unit_direction = self.direction.unit_vector();
-            let a = 0.5 * (unit_direction.y + 1.);
-            (1. - a) * WHITE + a * LIGHT_BLUE
+        let rec = sphere.hit(self, -1., 1.);
+        match rec {
+            Some(rec) if rec.t > 0. => {
+                let n = (self.at(rec.t) - center).unit_vector();
+                0.5 * (n + 1.)
+            }
+            _ => {
+                let unit_direction = self.direction.unit_vector();
+                let a = 0.5 * (unit_direction.y + 1.);
+                (1. - a) * WHITE + a * LIGHT_BLUE
+            }
         }
     }
 }

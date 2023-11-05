@@ -1,6 +1,7 @@
-use std::ops::RangeInclusive;
-
-use crate::{hittable::{Hittable, HitRecord}, vec3::Point3};
+use crate::{
+    hittable::{HitRecord, Hittable},
+    vec3::Point3,
+};
 
 pub struct Sphere {
     center: Point3,
@@ -14,12 +15,7 @@ impl Sphere {
 }
 
 impl Hittable for Sphere {
-    fn hit(
-        &self,
-        r: &crate::ray::Ray,
-        ray_range: RangeInclusive<f64>,
-        rec: &mut HitRecord,
-    ) -> bool {
+    fn hit(&self, r: &crate::ray::Ray, ray_tmin: f64, ray_tmax: f64) -> Option<HitRecord> {
         let oc = r.origin - self.center;
         let a = r.direction.length_squared();
         let half_b = oc.dot(&r.direction);
@@ -27,23 +23,24 @@ impl Hittable for Sphere {
 
         let discriminant = half_b * half_b - a * c;
         if discriminant < 0. {
-            return false;
+            return None;
         }
 
         // Find the nearest root that lies in the acceptable range.
         let sqrtd = discriminant.sqrt();
         let mut root = (-half_b - sqrtd) / a;
+        let ray_range = ray_tmin..=ray_tmax;
         if !ray_range.contains(&root) {
             root = (-half_b + sqrtd) / a;
             if !ray_range.contains(&root) {
-                return false;
+                return None;
             }
         }
 
+        let mut rec = HitRecord::default();
         rec.t = root;
         rec.p = r.at(root);
         rec.normal = (rec.p - self.center) / self.radius;
-
-        true
+        Some(rec)
     }
 }
