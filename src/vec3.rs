@@ -3,7 +3,7 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssi
 pub type Color = Vec3;
 pub type Point3 = Vec3;
 
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Vec3 {
     x: f64,
     y: f64,
@@ -32,7 +32,7 @@ impl Vec3 {
     }
 
     fn unit_vector(&self) -> Self {
-        self.clone() / self.length()
+        *self / self.length()
     }
 
     pub fn write_color(&self) {
