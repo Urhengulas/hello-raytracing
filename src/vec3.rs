@@ -5,9 +5,9 @@ pub type Point3 = Vec3;
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Vec3 {
-    x: f64,
-    y: f64,
-    z: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
 }
 
 impl Vec3 {
@@ -31,7 +31,7 @@ impl Vec3 {
         self.dot(self).sqrt()
     }
 
-    fn unit_vector(&self) -> Self {
+    pub fn unit_vector(&self) -> Self {
         *self / self.length()
     }
 

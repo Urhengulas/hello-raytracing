@@ -15,6 +15,8 @@ impl Ray {
     }
 
     pub fn ray_color(&self) -> Color {
-        Color::new(0.0, 0.0, 0.0)
+        let unit_direction = self.direction.unit_vector();
+        let a = 0.5 * (unit_direction.y + 1.0);
+        (1.0 - a) * Color::new(1.0, 1.0, 1.0) + a * Color::new(0.5, 0.7, 1.0)
     }
 }
