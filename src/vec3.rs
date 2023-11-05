@@ -28,7 +28,11 @@ impl Vec3 {
     }
 
     fn length(&self) -> f64 {
-        self.dot(self).sqrt()
+        self.length_squared().sqrt()
+    }
+
+    pub fn length_squared(&self) -> f64 {
+        self.dot(self)
     }
 
     pub fn unit_vector(&self) -> Self {
