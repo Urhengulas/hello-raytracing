@@ -11,7 +11,7 @@ fn main() {
 
     let image_width = 1024;
     // Calculate the image height, and ensure that it's at least 1.
-    let image_height = (image_width * 16 / 9).max(1);
+    let image_height = (image_width * 9 / 16).max(1);
 
     // Camera
 
