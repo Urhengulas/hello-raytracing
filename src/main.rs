@@ -1,3 +1,4 @@
+mod ray;
 mod vec3;
 
 use crate::vec3::Color;
