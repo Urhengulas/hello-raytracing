@@ -161,90 +161,90 @@ mod tests {
     #[test]
     fn cross() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         let c = a.cross(&b);
 
         // Assert
-        let result = Vec3::new(-3.0, 6.0, -3.0);
+        let result = Vec3::new(-3., 6., -3.);
         assert_eq!(c, result);
     }
 
     #[test]
     fn dot() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         let c = a.dot(&b);
 
         // Assert
-        let result = 32.0;
+        let result = 32.;
         assert_eq!(c, result);
     }
 
     #[test]
     fn length() {
         // Arrange
-        let a = Vec3::new(3.0, 4.0, 0.0);
+        let a = Vec3::new(3., 4., 0.);
 
         // Act
         let b = a.length();
 
         // Assert
-        let result = 5.0;
+        let result = 5.;
         assert_eq!(b, result);
     }
 
     #[test]
     fn unit_vector() {
         // Arrange
-        let a = Vec3::new(3.0, 4.0, 0.0);
+        let a = Vec3::new(3., 4., 0.);
 
         // Act
         let b = a.unit_vector();
 
         // Assert
-        let result = Vec3::new(0.6, 0.8, 0.0);
+        let result = Vec3::new(0.6, 0.8, 0.);
         assert_eq!(b, result);
     }
 
     #[test]
     fn add() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         let c = a + b;
 
         // Assert
-        let result = Vec3::new(5.0, 7.0, 9.0);
+        let result = Vec3::new(5., 7., 9.);
         assert_eq!(c, result);
     }
 
     #[test]
     fn add_assign() {
         // Arrange
-        let mut a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let mut a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         a += b;
 
         // Assert
-        let result = Vec3::new(5.0, 7.0, 9.0);
+        let result = Vec3::new(5., 7., 9.);
         assert_eq!(a, result);
     }
 
     #[test]
     fn div() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         let c = a / b;
@@ -257,125 +257,125 @@ mod tests {
     #[test]
     fn div_f64() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = 2.0;
+        let a = Vec3::new(1., 2., 3.);
+        let b = 2.;
 
         // Act
         let c = a / b;
 
         // Assert
-        let result = Vec3::new(0.5, 1.0, 1.5);
+        let result = Vec3::new(0.5, 1., 1.5);
         assert_eq!(c, result);
     }
 
     #[test]
     fn div_assign() {
         // Arrange
-        let mut a = Vec3::new(1.0, 2.0, 3.0);
-        let b = 2.0;
+        let mut a = Vec3::new(1., 2., 3.);
+        let b = 2.;
 
         // Act
         a /= b;
 
         // Assert
-        let result = Vec3::new(0.5, 1.0, 1.5);
+        let result = Vec3::new(0.5, 1., 1.5);
         assert_eq!(a, result);
     }
 
     #[test]
     fn mul() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         let c = a * b;
 
         // Assert
-        let result = Vec3::new(4.0, 10.0, 18.0);
+        let result = Vec3::new(4., 10., 18.);
         assert_eq!(c, result);
     }
 
     #[test]
     fn mul_f64() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = 2.0;
+        let a = Vec3::new(1., 2., 3.);
+        let b = 2.;
 
         // Act
         let c = a * b;
 
         // Assert
-        let result = Vec3::new(2.0, 4.0, 6.0);
+        let result = Vec3::new(2., 4., 6.);
         assert_eq!(c, result);
     }
 
     #[test]
     fn mul_vec3() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = 2.0;
+        let a = Vec3::new(1., 2., 3.);
+        let b = 2.;
 
         // Act
         let c = b * a;
 
         // Assert
-        let result = Vec3::new(2.0, 4.0, 6.0);
+        let result = Vec3::new(2., 4., 6.);
         assert_eq!(c, result);
     }
 
     #[test]
     fn mul_assign() {
         // Arrange
-        let mut a = Vec3::new(1.0, 2.0, 3.0);
-        let b = 2.0;
+        let mut a = Vec3::new(1., 2., 3.);
+        let b = 2.;
 
         // Act
         a *= b;
 
         // Assert
-        let result = Vec3::new(2.0, 4.0, 6.0);
+        let result = Vec3::new(2., 4., 6.);
         assert_eq!(a, result);
     }
 
     #[test]
     fn neg() {
         // Arrange
-        let a = Vec3::new(1.0, -2.0, 3.0);
+        let a = Vec3::new(1., -2., 3.);
 
         // Act
         let b = -a;
 
         // Assert
-        let result = Vec3::new(-1.0, 2.0, -3.0);
+        let result = Vec3::new(-1., 2., -3.);
         assert_eq!(b, result);
     }
 
     #[test]
     fn sub() {
         // Arrange
-        let a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         let c = a - b;
 
         // Assert
-        let result = Vec3::new(-3.0, -3.0, -3.0);
+        let result = Vec3::new(-3., -3., -3.);
         assert_eq!(c, result);
     }
 
     #[test]
     fn sub_assign() {
         // Arrange
-        let mut a = Vec3::new(1.0, 2.0, 3.0);
-        let b = Vec3::new(4.0, 5.0, 6.0);
+        let mut a = Vec3::new(1., 2., 3.);
+        let b = Vec3::new(4., 5., 6.);
 
         // Act
         a -= b;
 
         // Assert
-        let result = Vec3::new(-3.0, -3.0, -3.0);
+        let result = Vec3::new(-3., -3., -3.);
         assert_eq!(a, result);
     }
 }

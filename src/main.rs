@@ -15,18 +15,18 @@ fn main() {
 
     // Camera
 
-    let focal_length = 1.0;
-    let viewport_height = 2.0;
+    let focal_length = 1.;
+    let viewport_height = 2.;
     let viewport_width = {
         let image_width = Into::<f64>::into(image_width);
         let image_height = Into::<f64>::into(image_height);
         viewport_height * (image_width / image_height)
     };
-    let camera_center = Point3::new(0.0, 0.0, 0.0);
+    let camera_center = Point3::new(0., 0., 0.);
 
     // Calculate the vectors across the horizontal and down the vertical viewport edges.
-    let viewport_u = Vec3::new(viewport_width, 0.0, 0.0);
-    let viewport_v = Vec3::new(0.0, -viewport_height, 0.0);
+    let viewport_u = Vec3::new(viewport_width, 0., 0.);
+    let viewport_v = Vec3::new(0., -viewport_height, 0.);
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
     let pixel_delta_u = viewport_u / Into::<f64>::into(image_width);
@@ -34,7 +34,7 @@ fn main() {
 
     // Calculate the location of the upper left pixel.
     let viewport_upper_left =
-        camera_center - Vec3::new(0.0, 0.0, focal_length) - viewport_u / 2.0 - viewport_v / 2.0;
+        camera_center - Vec3::new(0., 0., focal_length) - viewport_u / 2. - viewport_v / 2.;
     let pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 
     // Render
