@@ -50,6 +50,18 @@ impl Add for Vec3 {
     }
 }
 
+impl Add<f64> for Vec3 {
+    type Output = Self;
+
+    fn add(self, rhs: f64) -> Self::Output {
+        Self {
+            x: self.x + rhs,
+            y: self.y + rhs,
+            z: self.z + rhs,
+        }
+    }
+}
+
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
         self.x += rhs.x;
@@ -223,6 +235,20 @@ mod tests {
 
         // Assert
         let result = Vec3::new(5., 7., 9.);
+        assert_eq!(c, result);
+    }
+
+    #[test]
+    fn add_f64() {
+        // Arrange
+        let a = Vec3::new(1., 2., 3.);
+        let b = 2.;
+
+        // Act
+        let c = a + b;
+
+        // Assert
+        let result = Vec3::new(3., 4., 5.);
         assert_eq!(c, result);
     }
 

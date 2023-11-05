@@ -19,8 +19,11 @@ impl Ray {
     }
 
     pub fn ray_color(&self) -> Color {
-        if hit_sphere(&Point3::new(0., 0., -1.), 0.5, self) {
-            RED
+        let center = Point3::new(0., 0., -1.);
+        let t = hit_sphere(&center, 0.5, self);
+        if t > 0. {
+            let n = (self.at(t) - center).unit_vector();
+            0.5 * (n + 1.)
         } else {
             let unit_direction = self.direction.unit_vector();
             let a = 0.5 * (unit_direction.y + 1.);
@@ -29,11 +32,15 @@ impl Ray {
     }
 }
 
-fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> bool {
+fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> f64 {
     let oc = r.origin - *center;
     let a = r.direction.dot(&r.direction);
     let b = 2. * oc.dot(&r.direction);
     let c = oc.dot(&oc) - radius * radius;
     let discriminant = b * b - 4. * a * c;
-    discriminant >= 0.
+
+    match discriminant < 0. {
+        true => -1.,
+        false => (-b - discriminant.sqrt()) / (2. * a),
+    }
 }
