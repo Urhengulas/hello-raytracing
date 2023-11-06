@@ -4,11 +4,10 @@ mod hittable_list;
 mod interval;
 mod ray;
 mod sphere;
+mod util;
 mod vec3;
 
-use camera::Camera;
-
-use crate::{hittable_list::HittableList, sphere::Sphere, vec3::Point3};
+use crate::{camera::Camera, hittable_list::HittableList, sphere::Sphere, vec3::Point3};
 
 fn main() {
     let mut world = HittableList::new();
