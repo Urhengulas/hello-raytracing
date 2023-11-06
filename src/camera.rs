@@ -2,7 +2,7 @@ use crate::{
     hittable::Hittable,
     interval::Interval,
     ray::Ray,
-    vec3::{Color, Point3, Vec3, LIGHT_BLUE, WHITE},
+    vec3::{Color3, Point3, Vec3, LIGHT_BLUE, WHITE},
 };
 
 #[derive(Debug, Default)]
@@ -79,7 +79,7 @@ impl Camera {
         eprintln!("\rDone.{}", " ".repeat(25));
     }
 
-    fn ray_color(&self, r: &Ray, world: &dyn Hittable) -> Color {
+    fn ray_color(&self, r: &Ray, world: &dyn Hittable) -> Color3 {
         if let Some(rec) = world.hit(r, &Interval::new(0., f64::INFINITY)) {
             0.5 * (rec.normal + WHITE)
         } else {

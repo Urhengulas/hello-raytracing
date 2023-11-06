@@ -9,7 +9,7 @@ impl Interval {
         Self { min, max }
     }
 
-    pub fn contains(&self, x: f64) -> bool {
+    pub fn _contains(&self, x: f64) -> bool {
         self.min <= x && x <= self.max
     }
 

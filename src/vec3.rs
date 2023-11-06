@@ -1,10 +1,10 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-pub type Color = Vec3;
+pub type Color3 = Vec3;
 pub type Point3 = Vec3;
 
-pub const LIGHT_BLUE: Color = Color::new(0.5, 0.7, 1.);
-pub const WHITE: Color = Color::new(1., 1., 1.);
+pub const LIGHT_BLUE: Color3 = Color3::new(0.5, 0.7, 1.);
+pub const WHITE: Color3 = Color3::new(1., 1., 1.);
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Vec3 {
@@ -18,7 +18,7 @@ impl Vec3 {
         Self { x, y, z }
     }
 
-    fn cross(&self, rhs: &Self) -> Self {
+    fn _cross(&self, rhs: &Self) -> Self {
         Self {
             x: self.y * rhs.z - self.z * rhs.y,
             y: self.z * rhs.x - self.x * rhs.z,
@@ -184,7 +184,7 @@ mod tests {
         let b = Vec3::new(4., 5., 6.);
 
         // Act
-        let c = a.cross(&b);
+        let c = a._cross(&b);
 
         // Assert
         let result = Vec3::new(-3., 6., -3.);

@@ -10,7 +10,7 @@ impl<'a> HittableList<'a> {
         Self::default()
     }
 
-    pub fn clear(&mut self) {
+    pub fn _clear(&mut self) {
         self.objects.clear()
     }
 
