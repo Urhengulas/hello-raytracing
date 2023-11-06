@@ -9,8 +9,8 @@ pub trait Hittable {
 
 #[derive(Debug, Default)]
 pub struct HitRecord {
-    front_face: bool,
-    normal: Vec3,
+    pub front_face: bool,
+    pub normal: Vec3,
     pub p: Point3,
     pub t: f64,
 }

@@ -5,8 +5,11 @@ mod sphere;
 mod vec3;
 
 use crate::{
+    hittable::Hittable,
+    hittable_list::HittableList,
     ray::Ray,
-    vec3::{Point3, Vec3},
+    sphere::Sphere,
+    vec3::{Color, Point3, Vec3, LIGHT_BLUE, WHITE},
 };
 
 fn main() {
@@ -15,6 +18,11 @@ fn main() {
     let image_width = 1024;
     // Calculate the image height, and ensure that it's at least 1.
     let image_height = (image_width * 9 / 16).max(1);
+
+    // World
+    let mut world = HittableList::new();
+    world.add(Sphere::new(Point3::new(0., 0., -1.), 0.5));
+    world.add(Sphere::new(Point3::new(0., -100.5, -1.), 100.));
 
     // Camera
 
@@ -54,9 +62,19 @@ fn main() {
             let ray_direction = pixel_center - camera_center;
             let r = Ray::new(camera_center, ray_direction);
 
-            let pixel_color = r.ray_color();
+            let pixel_color = ray_color(&r, &world);
             pixel_color.write_color();
         }
     }
     eprintln!("\rDone.{}", " ".repeat(25));
+}
+
+fn ray_color(r: &Ray, world: &dyn Hittable) -> Color {
+    if let Some(rec) = world.hit(r, 0., f64::INFINITY) {
+        0.5 * (rec.normal + WHITE)
+    } else {
+        let unit_direction = r.direction.unit_vector();
+        let a = 0.5 * (unit_direction.y + 1.);
+        (1. - a) * WHITE + a * LIGHT_BLUE
+    }
 }

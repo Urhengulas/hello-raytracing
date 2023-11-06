@@ -1,12 +1,4 @@
-use crate::{
-    hittable::Hittable,
-    sphere::Sphere,
-    vec3::{Color, Point3, Vec3},
-};
-
-const LIGHT_BLUE: Color = Color::new(0.5, 0.7, 1.);
-const WHITE: Color = Color::new(1., 1., 1.);
-const RED: Color = Color::new(1., 0., 0.);
+use crate::vec3::{Point3, Vec3};
 
 pub struct Ray {
     pub origin: Point3,
@@ -20,22 +12,5 @@ impl Ray {
 
     pub fn at(&self, t: f64) -> Point3 {
         self.origin + self.direction * t
-    }
-
-    pub fn ray_color(&self) -> Color {
-        let center = Point3::new(0., 0., -1.);
-        let sphere = Sphere::new(center, 0.5);
-        let rec = sphere.hit(self, -1., 1.);
-        match rec {
-            Some(rec) if rec.t > 0. => {
-                let n = (self.at(rec.t) - center).unit_vector();
-                0.5 * (n + 1.)
-            }
-            _ => {
-                let unit_direction = self.direction.unit_vector();
-                let a = 0.5 * (unit_direction.y + 1.);
-                (1. - a) * WHITE + a * LIGHT_BLUE
-            }
-        }
     }
 }

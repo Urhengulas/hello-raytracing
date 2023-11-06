@@ -3,6 +3,9 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssi
 pub type Color = Vec3;
 pub type Point3 = Vec3;
 
+pub const LIGHT_BLUE: Color = Color::new(0.5, 0.7, 1.);
+pub const WHITE: Color = Color::new(1., 1., 1.);
+
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Vec3 {
     pub x: f64,

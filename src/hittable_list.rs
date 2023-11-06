@@ -1,20 +1,20 @@
 use crate::hittable::Hittable;
 
 #[derive(Default)]
-struct HittableList<'a> {
+pub struct HittableList<'a> {
     objects: Vec<Box<dyn Hittable + 'a>>,
 }
 
 impl<'a> HittableList<'a> {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self::default()
     }
 
-    fn clear(&mut self) {
+    pub fn clear(&mut self) {
         self.objects.clear()
     }
 
-    fn add<T>(&mut self, object: T)
+    pub fn add<T>(&mut self, object: T)
     where
         T: Hittable + 'a,
     {
