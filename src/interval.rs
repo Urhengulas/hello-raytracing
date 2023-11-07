@@ -9,6 +9,10 @@ impl Interval {
         Self { min, max }
     }
 
+    pub fn clamp(&self, x: f64) -> f64 {
+        x.max(self.min).min(self.max)
+    }
+
     pub fn _contains(&self, x: f64) -> bool {
         self.min <= x && x <= self.max
     }

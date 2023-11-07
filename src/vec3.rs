@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+use crate::interval::Interval;
+
 pub type Color3 = Vec3;
 pub type Point3 = Vec3;
 
@@ -42,9 +44,26 @@ impl Vec3 {
         *self / self.length()
     }
 
-    pub fn write_color(&self) {
-        let a = |b| (255.999 * b) as i64;
-        println!("{} {} {}", a(self.x), a(self.y), a(self.z));
+    pub fn write_color(&self, samples_per_pixel: u32) {
+        let mut r = self.x;
+        let mut g = self.y;
+        let mut b = self.z;
+
+        // Divide the color by the number of samples.
+        let samples_per_pixel = Into::<f64>::into(samples_per_pixel);
+        let scale = 1. / samples_per_pixel;
+        r *= scale;
+        g *= scale;
+        b *= scale;
+
+        // Write the translated [0,255] value of each color component.
+        let intensity = Interval::new(0., 0.999);
+        println!(
+            "{} {} {}",
+            (256. * intensity.clamp(r)) as i64,
+            (256. * intensity.clamp(g)) as i64,
+            (256. * intensity.clamp(b)) as i64,
+        );
     }
 }
 

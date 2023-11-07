@@ -2,6 +2,7 @@ use crate::{
     hittable::Hittable,
     interval::Interval,
     ray::Ray,
+    util::random_double,
     vec3::{Color3, Point3, Vec3, LIGHT_BLUE, WHITE},
 };
 
@@ -13,6 +14,7 @@ pub struct Camera {
     pixel00_loc: Point3,
     pixel_delta_u: Vec3,
     pixel_delta_v: Vec3,
+    samples_per_pixel: u32,
 }
 
 impl Camera {
@@ -20,9 +22,9 @@ impl Camera {
     ///
     /// - `aspect_ratio`: Ratio of image width over height
     /// - `image_width`: Rendered image width in pixel count
-    pub fn new(aspect_ratio: f64, image_width: u32) -> Self {
+    pub fn new(aspect_ratio: f64, image_width: u32, samples_per_pixel: u32) -> Self {
         let image_width = Into::<f64>::into(image_width);
-        let image_height = (image_width * aspect_ratio).max(1.);
+        let image_height = (image_width * aspect_ratio).max(1.).trunc();
 
         let center = Point3::new(0., 0., 0.);
 
@@ -36,25 +38,22 @@ impl Camera {
         let viewport_v = Vec3::new(0., -viewport_height, 0.);
 
         // Calculate the horizontal and vertical delta vectors from pixel to pixel.
-        let pixel_delta_u = viewport_u / Into::<f64>::into(image_width);
-        let pixel_delta_v = viewport_v / Into::<f64>::into(image_height);
+        let pixel_delta_u = viewport_u / image_width;
+        let pixel_delta_v = viewport_v / image_height;
 
         // Calculate the location of the upper left pixel.
         let viewport_upper_left =
             center - Vec3::new(0., 0., focal_length) - viewport_u / 2. - viewport_v / 2.;
         let pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 
-        // cast dimenstions to integer
-        let image_height = image_height.trunc() as _;
-        let image_width = image_width.trunc() as _;
-
         Self {
             center,
-            image_height,
-            image_width,
+            image_height: image_height as _,
+            image_width: image_width as _,
             pixel00_loc,
             pixel_delta_u,
             pixel_delta_v,
+            samples_per_pixel,
         }
     }
 
@@ -67,13 +66,12 @@ impl Camera {
                 let i: f64 = i.try_into().unwrap();
                 let j: f64 = j.try_into().unwrap();
 
-                let pixel_center =
-                    self.pixel00_loc + (i * self.pixel_delta_u) + (j * self.pixel_delta_v);
-                let ray_direction = pixel_center - self.center;
-                let r = Ray::new(self.center, ray_direction);
-
-                let pixel_color = self.ray_color(&r, world);
-                pixel_color.write_color();
+                let mut pixel_color = Color3::new(0., 0., 0.);
+                for _ in 0..self.samples_per_pixel {
+                    let r = self.get_ray(i, j);
+                    pixel_color += self.ray_color(&r, world);
+                }
+                pixel_color.write_color(self.samples_per_pixel);
             }
         }
         eprintln!("\rDone.{}", " ".repeat(25));
@@ -87,5 +85,23 @@ impl Camera {
             let a = 0.5 * (unit_direction.y + 1.);
             (1. - a) * WHITE + a * LIGHT_BLUE
         }
+    }
+
+    /// Get a random;y sampled camera ray for the pixel at location i,j.
+    fn get_ray(&self, i: f64, j: f64) -> Ray {
+        let pixel_center = self.pixel00_loc + (i * self.pixel_delta_u) + (j * self.pixel_delta_v);
+        let pixel_sample = pixel_center + self.pixel_sample_square();
+
+        let ray_origin = self.center;
+        let ray_direction = pixel_sample - ray_origin;
+
+        Ray::new(ray_origin, ray_direction)
+    }
+
+    /// Returns a random point in the square surrouding a pixel at the origin.
+    fn pixel_sample_square(&self) -> Vec3 {
+        let px = -0.5 + random_double();
+        let py = -0.5 + random_double();
+        px * self.pixel_delta_u + py * self.pixel_delta_v
     }
 }
