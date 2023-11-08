@@ -11,6 +11,7 @@ pub struct Camera {
     center: Point3,
     image_height: u32,
     image_width: u32,
+    max_depth: u32,
     pixel00_loc: Point3,
     pixel_delta_u: Vec3,
     pixel_delta_v: Vec3,
@@ -22,7 +23,12 @@ impl Camera {
     ///
     /// - `aspect_ratio`: Ratio of image width over height
     /// - `image_width`: Rendered image width in pixel count
-    pub fn new(aspect_ratio: f64, image_width: u32, samples_per_pixel: u32) -> Self {
+    pub fn new(
+        aspect_ratio: f64,
+        image_width: u32,
+        samples_per_pixel: u32,
+        max_depth: u32,
+    ) -> Self {
         let image_width = Into::<f64>::into(image_width);
         let image_height = (image_width * aspect_ratio).max(1.).trunc();
 
@@ -50,6 +56,7 @@ impl Camera {
             center,
             image_height: image_height as _,
             image_width: image_width as _,
+            max_depth,
             pixel00_loc,
             pixel_delta_u,
             pixel_delta_v,
@@ -69,7 +76,7 @@ impl Camera {
                 let mut pixel_color = Color3::new(0., 0., 0.);
                 for _ in 0..self.samples_per_pixel {
                     let r = self.get_ray(i, j);
-                    pixel_color += self.ray_color(&r, world);
+                    pixel_color += Self::ray_color(&r, self.max_depth, world);
                 }
                 pixel_color.write_color(self.samples_per_pixel);
             }
@@ -77,10 +84,13 @@ impl Camera {
         eprintln!("\rDone.{}", " ".repeat(25));
     }
 
-    fn ray_color(&self, r: &Ray, world: &dyn Hittable) -> Color3 {
-        if let Some(rec) = world.hit(r, &Interval::new(0., f64::INFINITY)) {
+    fn ray_color(r: &Ray, depth: u32, world: &dyn Hittable) -> Color3 {
+        if depth == 0 {
+            // If we've exceeded the ray bounce limit, no more light is gathered.
+            Color3::new(0., 0., 0.)
+        } else if let Some(rec) = world.hit(r, &Interval::new(0., f64::INFINITY)) {
             let direction = Vec3::random_on_hemisphere(&rec.normal);
-            0.5 * self.ray_color(&Ray::new(rec.p, direction), world)
+            0.5 * Self::ray_color(&Ray::new(rec.p, direction), depth - 1, world)
         } else {
             let unit_direction = r.direction.unit_vector();
             let a = 0.5 * (unit_direction.y + 1.);
