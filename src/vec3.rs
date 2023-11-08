@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use crate::interval::Interval;
+use crate::{interval::Interval, util::random_double_minmax};
 
 pub type Color3 = Vec3;
 pub type Point3 = Vec3;
@@ -38,6 +38,37 @@ impl Vec3 {
 
     pub fn length_squared(&self) -> f64 {
         self.dot(self)
+    }
+
+    fn random(min: f64, max: f64) -> Self {
+        Vec3::new(
+            random_double_minmax(min, max),
+            random_double_minmax(min, max),
+            random_double_minmax(min, max),
+        )
+    }
+
+    fn random_in_unit_sphere() -> Self {
+        loop {
+            let p = Self::random(-1., 1.);
+            if p.length_squared() < 1. {
+                return p;
+            }
+        }
+    }
+
+    pub fn random_on_hemisphere(normal: &Vec3) -> Self {
+        let on_unit_sphere = Self::random_unit_vector();
+        if normal.dot(&on_unit_sphere) > 0. {
+            // In the same hemisphere as the normal
+            on_unit_sphere
+        } else {
+            -on_unit_sphere
+        }
+    }
+
+    fn random_unit_vector() -> Self {
+        Self::random_in_unit_sphere().unit_vector()
     }
 
     pub fn unit_vector(&self) -> Self {
