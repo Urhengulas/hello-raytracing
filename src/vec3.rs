@@ -23,7 +23,7 @@ impl Vec3 {
         Self { x, y, z }
     }
 
-    fn _cross(&self, rhs: &Self) -> Self {
+    pub fn cross(&self, rhs: &Self) -> Self {
         Self {
             x: self.y * rhs.z - self.z * rhs.y,
             y: self.z * rhs.x - self.x * rhs.z,
@@ -35,7 +35,7 @@ impl Vec3 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
 
-    fn length(&self) -> f64 {
+    pub fn length(&self) -> f64 {
         self.length_squared().sqrt()
     }
 
@@ -260,7 +260,7 @@ mod tests {
         let b = Vec3::new(4., 5., 6.);
 
         // Act
-        let c = a._cross(&b);
+        let c = a.cross(&b);
 
         // Assert
         let result = Vec3::new(-3., 6., -3.);
