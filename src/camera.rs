@@ -11,19 +11,11 @@ pub struct Camera {
     center: Point3,
     image_height: u32,
     image_width: u32,
-    lookat: Point3,
-    lookfrom: Point3,
     max_depth: u32,
     pixel00_loc: Point3,
     pixel_delta_u: Vec3,
     pixel_delta_v: Vec3,
     samples_per_pixel: u32,
-    vup: Vec3,
-
-    // Camera frame basis vectors
-    u: Vec3,
-    v: Vec3,
-    w: Vec3,
 }
 
 impl Camera {
@@ -80,17 +72,11 @@ impl Camera {
             center,
             image_height: image_height as _,
             image_width: image_width as _,
-            lookat,
-            lookfrom,
             max_depth,
             pixel00_loc,
             pixel_delta_u,
             pixel_delta_v,
             samples_per_pixel,
-            vup,
-            u,
-            v,
-            w,
         }
     }
 
