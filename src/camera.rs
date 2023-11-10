@@ -10,24 +10,29 @@ use crate::{
 pub struct Camera {
     center: Point3,
     image_height: u32,
+    /// Rendered image width in pixel count
     image_width: u32,
+    /// Maximum number of ray bounces into scene
     max_depth: u32,
     pixel00_loc: Point3,
     pixel_delta_u: Vec3,
     pixel_delta_v: Vec3,
     samples_per_pixel: u32,
+    /// Vertical view angle (field of view)
+    vfov: f64,
 }
 
 impl Camera {
     /// Create a new camera.
     ///
-    /// - `aspect_ratio`: Ratio of image width over height
-    /// - `image_width`: Rendered image width in pixel count
+    /// `aspect_ratio` is the image width over height.
+    /// For other arguments refer to field documentation.
     pub fn new(
         aspect_ratio: f64,
         image_width: u32,
         samples_per_pixel: u32,
         max_depth: u32,
+        vfov: f64,
     ) -> Self {
         let image_width = Into::<f64>::into(image_width);
         let image_height = (image_width * aspect_ratio).max(1.).trunc();
@@ -36,7 +41,9 @@ impl Camera {
 
         // Determine viewport dimensions.
         let focal_length = 1.;
-        let viewport_height = 2.;
+        let theta = vfov.to_radians();
+        let h = (theta / 2.).tan();
+        let viewport_height = 2. * h * focal_length;
         let viewport_width = viewport_height * (image_width / image_height);
 
         // Calculate the vectors across the horizontal and down the vertical viewport edges.
@@ -61,6 +68,7 @@ impl Camera {
             pixel_delta_u,
             pixel_delta_v,
             samples_per_pixel,
+            vfov,
         }
     }
 
