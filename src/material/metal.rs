@@ -1,11 +1,11 @@
 use crate::{hittable::HitRecord, material::Material, ray::Ray, vec3::Color3};
 
-struct Metal {
+pub struct Metal {
     albedo: Color3,
 }
 
 impl Metal {
-    fn new(albedo: Color3) -> Self {
+    pub fn new(albedo: Color3) -> Self {
         Self { albedo }
     }
 }

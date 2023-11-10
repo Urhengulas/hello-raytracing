@@ -5,12 +5,12 @@ use crate::{
     vec3::{Color3, Vec3},
 };
 
-struct Lambertian {
+pub struct Lambertian {
     albedo: Color3,
 }
 
 impl Lambertian {
-    fn new(albedo: Color3) -> Self {
+    pub fn new(albedo: Color3) -> Self {
         Self { albedo }
     }
 }
