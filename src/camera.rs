@@ -88,7 +88,7 @@ impl Camera {
         if depth == 0 {
             // If we've exceeded the ray bounce limit, no more light is gathered.
             Color3::new(0., 0., 0.)
-        } else if let Some(rec) = world.hit(r, &Interval::new(0., f64::INFINITY)) {
+        } else if let Some(rec) = world.hit(r, &Interval::new(0.001, f64::INFINITY)) {
             let direction = Vec3::random_on_hemisphere(&rec.normal);
             0.5 * Self::ray_color(&Ray::new(rec.p, direction), depth - 1, world)
         } else {
