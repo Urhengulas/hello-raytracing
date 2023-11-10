@@ -1,4 +1,5 @@
 mod lambertian;
+mod metal;
 
 use crate::{hittable::HitRecord, ray::Ray, vec3::Color3};
 

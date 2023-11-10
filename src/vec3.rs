@@ -66,7 +66,7 @@ impl Vec3 {
         }
     }
 
-    fn _random_on_hemisphere(normal: &Vec3) -> Self {
+    fn _random_on_hemisphere(normal: &Self) -> Self {
         let on_unit_sphere = Self::random_unit_vector();
         if normal.dot(&on_unit_sphere) > 0. {
             // In the same hemisphere as the normal
@@ -78,6 +78,11 @@ impl Vec3 {
 
     pub fn random_unit_vector() -> Self {
         Self::random_in_unit_sphere().unit_vector()
+    }
+
+    /// Reflect `self` on the surface normal `n`.
+    pub fn reflect(&self, n: &Self) -> Self {
+        *self - 2. * self.dot(n) * *n
     }
 
     pub fn unit_vector(&self) -> Self {
