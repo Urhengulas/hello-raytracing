@@ -43,6 +43,12 @@ impl Vec3 {
         self.dot(self)
     }
 
+    /// Return true of the vector is close to zero in all dimenstions.
+    pub fn near_zero(&self) -> bool {
+        const S: f64 = 1e-8;
+        self.x.abs() < S && self.y.abs() < S && self.z.abs() < S
+    }
+
     fn random(min: f64, max: f64) -> Self {
         Vec3::new(
             random_double_minmax(min, max),
@@ -96,12 +102,12 @@ impl Vec3 {
         b = linear_to_gamma(b);
 
         // Write the translated [0,255] value of each color component.
-        let intensity = Interval::new(0., 0.999);
+        const INTENSITY: Interval = Interval::new(0., 0.999);
         println!(
             "{} {} {}",
-            (256. * intensity.clamp(r)) as i64,
-            (256. * intensity.clamp(g)) as i64,
-            (256. * intensity.clamp(b)) as i64,
+            (256. * INTENSITY.clamp(r)) as i64,
+            (256. * INTENSITY.clamp(g)) as i64,
+            (256. * INTENSITY.clamp(b)) as i64,
         );
     }
 }

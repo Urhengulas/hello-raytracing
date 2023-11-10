@@ -1,11 +1,13 @@
+mod lambertian;
+
 use crate::{hittable::HitRecord, ray::Ray, vec3::Color3};
 
 pub trait Material {
-    fn scatter(&self, r_in: &Ray, rec: &HitRecord, attenuation: &Color3, scattered: &Ray) -> bool;
+    fn scatter(&self, r_in: &Ray, rec: &HitRecord) -> Option<(Color3, Ray)>;
 }
 
 impl Material for () {
-    fn scatter(&self, _r_in: &Ray, _rec: &HitRecord, _attenuation: &Color3, _scattered: &Ray) -> bool {
-        false
+    fn scatter(&self, _r_in: &Ray, _rec: &HitRecord) -> Option<(Color3, Ray)> {
+        todo!()
     }
 }
