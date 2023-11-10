@@ -1,8 +1,13 @@
+mod hittable_list;
+mod sphere;
+
 use crate::{
     interval::Interval,
     ray::Ray,
     vec3::{Point3, Vec3},
 };
+
+pub use self::{hittable_list::HittableList, sphere::Sphere};
 
 pub trait Hittable {
     fn hit(&self, r: &Ray, ray_t: &Interval) -> Option<HitRecord>;
