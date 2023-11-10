@@ -10,23 +10,22 @@ use crate::{
 pub struct Camera {
     center: Point3,
     image_height: u32,
-    /// Rendered image width in pixel count
     image_width: u32,
-    /// Maximum number of ray bounces into scene
     max_depth: u32,
     pixel00_loc: Point3,
     pixel_delta_u: Vec3,
     pixel_delta_v: Vec3,
     samples_per_pixel: u32,
-    /// Vertical view angle (field of view)
-    vfov: f64,
 }
 
 impl Camera {
     /// Create a new camera.
     ///
-    /// `aspect_ratio` is the image width over height.
-    /// For other arguments refer to field documentation.
+    /// - `aspect_ratio`: Ratio of image width over height
+    /// - `image_width`: Rendered image width in pixel count
+    /// - `samples_per_pixel`: Count of random samples for each pixel
+    /// - `max_depth`: Maximum number of ray bounces into scene
+    /// - `vfov`: Vertical view angle (field of view)
     pub fn new(
         aspect_ratio: f64,
         image_width: u32,
@@ -68,7 +67,6 @@ impl Camera {
             pixel_delta_u,
             pixel_delta_v,
             samples_per_pixel,
-            vfov,
         }
     }
 
