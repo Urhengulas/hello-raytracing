@@ -89,8 +89,9 @@ impl Camera {
             // If we've exceeded the ray bounce limit, no more light is gathered.
             Color3::new(0., 0., 0.)
         } else if let Some(rec) = world.hit(r, &Interval::new(0.001, f64::INFINITY)) {
+            const REFLECTANCE: f64 = 0.5;
             let direction = rec.normal + Vec3::random_unit_vector();
-            0.5 * Self::ray_color(&Ray::new(rec.p, direction), depth - 1, world)
+            REFLECTANCE * Self::ray_color(&Ray::new(rec.p, direction), depth - 1, world)
         } else {
             let unit_direction = r.direction.unit_vector();
             let a = 0.5 * (unit_direction.y + 1.);

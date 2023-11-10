@@ -1,6 +1,9 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use crate::{interval::Interval, util::random_double_minmax};
+use crate::{
+    interval::Interval,
+    util::{linear_to_gamma, random_double_minmax},
+};
 
 pub type Color3 = Vec3;
 pub type Point3 = Vec3;
@@ -86,6 +89,11 @@ impl Vec3 {
         r *= scale;
         g *= scale;
         b *= scale;
+
+        // Apply the linear to gamma transform
+        r = linear_to_gamma(r);
+        g = linear_to_gamma(g);
+        b = linear_to_gamma(b);
 
         // Write the translated [0,255] value of each color component.
         let intensity = Interval::new(0., 0.999);
