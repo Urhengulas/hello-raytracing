@@ -32,7 +32,12 @@ fn main() {
         material_ground,
     ));
     world.add(Sphere::new(Point3::new(0., 0., -1.), 0.5, material_center));
-    world.add(Sphere::new(Point3::new(-1., 0., -1.), 0.5, material_left));
+    world.add(Sphere::new(
+        Point3::new(-1., 0., -1.),
+        0.5,
+        material_left.clone(),
+    ));
+    world.add(Sphere::new(Point3::new(-1., 0., -1.), -0.4, material_left));
     world.add(Sphere::new(Point3::new(1., 0., -1.), 0.5, material_right));
 
     let cam = Camera::new(ASPECT_RATIO, IMAGE_WIDTH, 100, 50);
