@@ -50,6 +50,8 @@ fn main() {
 
     let cam = Camera::new(
         ASPECT_RATIO,
+        10.,
+        3.4,
         IMAGE_WIDTH,
         LOOKAT,
         LOOKFROM,
