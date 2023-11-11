@@ -2,7 +2,7 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssi
 
 use crate::{
     interval::Interval,
-    util::{linear_to_gamma, random_double_minmax},
+    util::{linear_to_gamma, random_double, random_double_minmax},
 };
 
 pub type Color3 = Vec3;
@@ -49,7 +49,11 @@ impl Vec3 {
         self.x.abs() < S && self.y.abs() < S && self.z.abs() < S
     }
 
-    fn random(min: f64, max: f64) -> Self {
+    pub fn random() -> Self {
+        Vec3::new(random_double(), random_double(), random_double())
+    }
+
+    pub fn random_minmax(min: f64, max: f64) -> Self {
         Vec3::new(
             random_double_minmax(min, max),
             random_double_minmax(min, max),
@@ -72,7 +76,7 @@ impl Vec3 {
 
     fn random_in_unit_sphere() -> Self {
         loop {
-            let p = Self::random(-1., 1.);
+            let p = Self::random_minmax(-1., 1.);
             if p.length_squared() < 1. {
                 return p;
             }
