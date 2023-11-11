@@ -1,0 +1,2 @@
+# Exclude book from language statistics on GitHub
+book/* linguist-documentation
