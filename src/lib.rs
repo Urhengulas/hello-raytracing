@@ -19,7 +19,7 @@ use crate::{
 const ASPECT_RATIO: f64 = 9. / 16.;
 const DEFOCUS_ANGLE: f64 = 0.6;
 const FOCUS_DIST: f64 = 10.;
-const IMAGE_WIDTH: u32 = 1200;
+const IMAGE_WIDTH: u32 = 120;
 const LOOKAT: Point3 = Point3::new(0., 0., 0.);
 const LOOKFROM: Point3 = Point3::new(13., 2., 3.);
 const MAX_DEPTH: u32 = 50;
@@ -27,25 +27,13 @@ const SAMPLES_PER_PIXEL: u32 = 500;
 const VFOV: f64 = 20.;
 const VUP: Vec3 = Vec3::new(0., 1., 0.);
 
-fn main() {
+pub fn main() {
     let world = make_world();
-
-    let cam = Camera::new(
-        ASPECT_RATIO,
-        DEFOCUS_ANGLE,
-        FOCUS_DIST,
-        IMAGE_WIDTH,
-        LOOKAT,
-        LOOKFROM,
-        MAX_DEPTH,
-        SAMPLES_PER_PIXEL,
-        VFOV,
-        VUP,
-    );
-    cam.render(&world);
+    let cam = camera();
+    cam.render(&world)
 }
 
-fn make_world() -> HittableList<'static> {
+pub fn make_world() -> HittableList<'static> {
     let mut world = HittableList::new();
 
     let material_ground = Rc::new(Lambertian::new(Color3::new(0.5, 0.5, 0.5)));
@@ -55,8 +43,8 @@ fn make_world() -> HittableList<'static> {
         material_ground,
     ));
 
-    for a in -11..11 {
-        for b in -11..11 {
+    for a in -2..2 {
+        for b in -2..2 {
             let choose_mat = random_double();
             let center = Point3::new(
                 f64(a) + 0.9 * random_double(),
@@ -90,4 +78,20 @@ fn make_world() -> HittableList<'static> {
     world.add(Sphere::new(Point3::new(4., 1., 0.), 1., material3));
 
     world
+}
+
+pub fn camera() -> Camera {
+    let cam = Camera::new(
+        ASPECT_RATIO,
+        DEFOCUS_ANGLE,
+        FOCUS_DIST,
+        IMAGE_WIDTH,
+        LOOKAT,
+        LOOKFROM,
+        MAX_DEPTH,
+        SAMPLES_PER_PIXEL,
+        VFOV,
+        VUP,
+    );
+    cam
 }
